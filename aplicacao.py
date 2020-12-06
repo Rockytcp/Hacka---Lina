@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 
 
 app = Flask(__name__)
@@ -14,22 +15,78 @@ class dados(db.Model):
     nome = db.Column(db.String(45))
     cpf = db.Column(db.String(11))
     saldo = db.Column(db.String(45))
+
     def __init__(self, nome, cpf, saldo):
         self.nome = nome
         self.cpf = cpf
         self.saldo = saldo
+    
+    def get_nome(self):
+        return self.nome
+    
+    def get_cpf(self):
+        return self.cpf
+    
+    def get_saldo(self):
+        return self.saldo
+
+    def set_nome(self, nome):
+        self.nome = ""
+
+    def set_cpf(self, cpf):
+        self.cpf = ""
+
+    def set_saldo(self, saldo):
+        self.saldo = ""
+
+class dados1(db.Model):
+    __tablename__="dados_cliente1"
+    _id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(45))
+    cpf = db.Column(db.String(11))
+    saldo = db.Column(db.String(45))
+
+    def __init__(self, nome, cpf, saldo):
+        self.nome = nome
+        self.cpf = cpf
+        self.saldo = saldo
+        
+    def get_nome(self):
+        return self.nome
+    
+    def get_cpf(self):
+        return self.cpf
+    
+    def get_saldo(self):
+        return self.saldo
+
+    def set_nome(self, nome):
+        self.nome = ""
+
+    def set_cpf(self, cpf):
+        self.cpf = ""
+
+    def set_saldo(self, saldo):
+        self.saldo = ""
+
 
 db.create_all()
 
 @app.route("/")
 def index():
-    nome = "Gabriel"
-    cpf = 12345678912
-    saldo = 1500.00
-    var = dados(nome, cpf, saldo)
+
+
+    '''var = dados("Gabriel", "CPF", "Saldo")
+    var1 = dados1
+    db.session.add(var1)
     db.session.add(var)
-    db.session.commit()
+    db.session.commit()'''
     return render_template('index.html')
+
+@app.route("/delete")
+def delete():
+    db.session.execute("ALTER TABLE dados_cliente1 DROP saldo")
+    return render_template('delete.html')
 
 
 '''@app.route("/registrar", methods=['GET', 'POST'])
