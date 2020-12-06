@@ -72,15 +72,11 @@ class dados1(db.Model):
 
 db.create_all()
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-
-
-    '''var = dados("Gabriel", "CPF", "Saldo")
-    var1 = dados1
-    db.session.add(var1)
-    db.session.add(var)
-    db.session.commit()'''
+    if request.method == 'POST':
+        db.session.execute("INSERT INTO dados_cliente1(nome) VALUES Gabriel")
+        db.session.commit()
     return render_template('index.html')
 
 @app.route("/delete")
